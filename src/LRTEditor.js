@@ -7,18 +7,18 @@ var LRTEditor = {};
 	var stopPropagation = {},
 		highlightCallback,
 		self = this,
-		events = {};
+		events = {},
+		plugins = {};
 
 	this.element = null;
-	this.plugins = {};
 	this.selection = null;
 
-	this.initialize = function(el, plugins, cb){
+	this.initialize = function(el, _plugins, cb){
 		this.element = el;
 		highlightCallback = cb;
 
-		plugins.forEach(function(p){
-			this.plugins[p] = window['LRTEditor_' +p].initialize(this);
+		_plugins.forEach(function(p){
+			plugins[p] = window['LRTEditor_' +p].initialize(this);
 		}.bind(this));
 
 		this.element.addEventListener('keydown', function(e){ _propagate.apply(self, [e]); });
@@ -126,7 +126,7 @@ var LRTEditor = {};
 	this.setSelection = function(sel)
 	{
 		var offset = 0, range = document.createRange(), found = false, stop = {};
-		range.collapse(this.element, 0);
+		range.collapse(this.element);
 
 		var processText = function(n)
 		{
