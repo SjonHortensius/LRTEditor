@@ -1,0 +1,3 @@
+[submodule "shjs"]
+	path = shjs
+	url = git@github.com:SjonHortensius/shjs.git
