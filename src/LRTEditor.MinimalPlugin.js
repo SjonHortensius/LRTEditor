@@ -38,5 +38,5 @@ LRTEditor.MinimalPlugin = new Class({
 		e.preventDefault();
 		e.type='input';
 		this.editor.element.fireEvent('input', e, 10);
-	},
+	}
 });

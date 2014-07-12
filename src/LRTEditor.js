@@ -152,5 +152,5 @@ var LRTEditor = new Class({
 			window.getSelection().removeAllRanges();
 			window.getSelection().addRange(range);
 		}
-	},
+	}
 });

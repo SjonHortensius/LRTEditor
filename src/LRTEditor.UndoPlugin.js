@@ -81,5 +81,5 @@ LRTEditor.UndoPlugin = new Class({
 		this.editor.selection = this.revisions[ this.undoIndex ].selection;
 
 		this.editor.highlight();
-	},
+	}
 });
