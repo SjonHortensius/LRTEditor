@@ -4,20 +4,19 @@
 	margin: 10px;
 	color: #333;
 	counter-reset: lineno;
+	background: linear-gradient(to right, #f7f7f7 0%, #f7f7f7 30px, #ffffff 30px, #ffffff 100%)
 }
 
 code
 {
 	white-space: pre;
 	display: block;
-	background: linear-gradient(to right, #f7f7f7 0%, #f7f7f7 30px, #ffffff 30px, #ffffff 100%)
 }
 
 .line
 {
 	counter-increment: lineno;
 	border-left: 1px solid gray;
-/*	padding-left: 5px;*/
 }
 
 .line::before
