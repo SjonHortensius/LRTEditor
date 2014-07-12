@@ -3,15 +3,14 @@ var LRTEditor = {};
 (function(){
 	"use strict"
 
-	//privates
-	var stopPropagation = {},
-		highlightCallback,
+	var highlightCallback,
 		self = this,
 		events = {},
 		plugins = {};
 
 	this.element = null;
 	this.selection = null;
+	this.stopPropagation = {};
 
 	this.initialize = function(el, _plugins, cb){
 		this.element = el;
@@ -39,7 +38,7 @@ var LRTEditor = {};
 		}
 		catch (ex)
 		{
-			if (ex != this._stopPropagation)
+			if (ex != this.stopPropagation)
 				throw ex;
 
 			return;

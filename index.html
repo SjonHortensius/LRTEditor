@@ -1,13 +1,14 @@
 <html>
 <head>
-	<!--script src="http://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script-->
-
 	<script src="shjs/lang/sh_php.js"></script>
 	<script src="shjs/sh_main.min.js"></script>
 
+	<script src="LRTEditor.min.js"></script>
+<!--
 	<script src="src/LRTEditor.js"></script>
 	<script src="src/LRTEditor.MinimalPlugin.js"></script>
 	<script src="src/LRTEditor.UndoPlugin.js"></script>
+-->
 
 	<link rel="stylesheet" href="src/style.css" />
 	<link rel="stylesheet" href="shjs/sh_style.css" />
@@ -16,7 +17,7 @@
 		window.addEventListener('load', function(){
 			LRTEditor.initialize(
 				document.getElementsByTagName('code')[0],
-				['UndoPlugin','MinimalPlugin'], 
+				['MinimalPlugin', 'UndoPlugin'], 
 				function(el){ sh_highlightElement(el, sh_languages['php']); }
 			);
 		});
