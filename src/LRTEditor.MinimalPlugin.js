@@ -1,42 +1,51 @@
-LRTEditor.MinimalPlugin = new Class({
-	editor: null,
+var LRTEditor_MinimalPlugin = {};
 
-	initialize: function(editor){
-		this.editor = editor;
+(function(){
+	"use strict"
 
-		this.editor.addEvent('keydown', this.onKeydown.bind(this));
-	},
+	var editor = null;
 
-	onKeydown: function(e)
+	this.initialize = function(_editor){
+		editor = _editor;
+
+		editor.addEventListener('keydown', function(e){ onKeydown.apply(this, [e]); });
+	};
+
+	var onKeydown = function(e)
 	{
 		var range = window.getSelection().getRangeAt(0);
 
-		if ('tab' == e.key && !e.shift && !e.alt)
+		if (9 == e.keyCode && !e.shiftKey && !e.altKey) // tab
 		{
 			// Not supported (yet?)
-			if (this.editor.selection.start != this.editor.selection.end)
+			if (editor.selection.start != editor.selection.end)
 				return e.preventDefault();
 
 			range.insertNode(document.createTextNode("\t"));
 
-			this.editor.selection.start++;
-			this.editor.selection.end++;
+			editor.selection.start++;
+			editor.selection.end++;
 		}
-		else if ('enter' == e.key)
+		else if (13 == e.keyCode)
 		{
 			range.deleteContents();
 			range.insertNode(document.createTextNode("\n"));
-			this.editor.selection.start += 2;
-			this.editor.selection.end = this.editor.selection.start;
+			editor.selection.start += 2;
+			editor.selection.end = editor.selection.start;
 		}
 		else
 			return;
 
-		this.editor.reformat();
+		editor.reformat();
+		e.preventDefault();
 
 		// Trigger input event since we changed content. Add delay so _propagate can restoreSelection first
-		e.preventDefault();
-		e.type='input';
-		this.editor.element.fireEvent('input', e, 10);
-	}
-});
+/*		var inputEvent = new Event('input', {
+			bubbles: true,
+			cancelable: false,
+			target: editor.element,
+		});
+
+		window.setTimeout(function(){ editor.dispatchEvent('input', [inputEvent]); }, 10);
+*/	}
+}).apply(LRTEditor_MinimalPlugin);

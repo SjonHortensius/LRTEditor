@@ -1,4 +1,42 @@
-LRTEditor
-=========
+ABOUT
+=====
 
-HTML5 Lightweigh Rich Text Editor; using ContentEditable and a simple wrapper with plugin support. Depends on Mootools
+Looking for a modern Rich Text Editor? LRTEditor is the way to go! We don't support older browsers; meaning this is the smallest text editor with syntax highlighting you'll find.
+LRTEditor doesn't depend on a specific highlighter; I prefer shjs so I have included that; but any highlighter should work just fine.
+
+FEATURES
+========
+
+LRTEditor comes with a simple plugin architecture allowing you to add functionality quickly. The core functionality also includes 2 plugins:
+
+LRTEditor provides:
+* get/setSelection; to restore selection and cursor
+* stripHtml/highlight; to convert from plain to highlighted
+* add/remove/dispatchEvent; to forward events to plugins
+
+LRTEditor_MinimalPlugin provides:
+* handler for tab-key; to insert a tab instead of changing focus
+* handler for enter-key; to prevent the browser from inserting a <DIV> element
+
+LRTEditor_UndoPlugin provides:
+* handler for ctrl+z/y; for undo/redo functionality
+
+USAGE
+=====
+
+Using LRTEditor is easy; include the appropriate files and register the highlighter onload:
+
+```html
+<script src="http://sjonhortensius.github.io/LRTEditor/shjs/lang/sh_php.js"></script>
+<script src="http://sjonhortensius.github.io/LRTEditor/shjs/sh_main.min.js"></script>
+<script src="http://sjonhortensius.github.io/LRTEditor/LRTEditor.min.js"></script>
+<script>
+	window.addEventListener('load', function(){
+		LRTEditor.initialize(
+			document.getElementsByTagName('code')[0],
+			['MinimalPlugin','UndoPlugin'],
+			function(el){ sh_highlightElement(el, sh_languages['php']); }
+		);
+	});
+</script>
+```

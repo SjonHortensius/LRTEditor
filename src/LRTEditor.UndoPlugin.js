@@ -1,85 +1,88 @@
-LRTEditor.UndoPlugin = new Class({
-	editor: null,
-	revisions: [],
-	undoIndex: null,
-	ignoreInput: false,
-	maxRevisions: 30,
+var LRTEditor_UndoPlugin = {};
 
-	initialize: function(editor)
+(function(){
+	"use strict"
+
+	var editor,
+		undoIndex = null,
+		ignoreInput,
+		revisions = [],
+		maxRevisions = 30;
+
+	this.initialize = function(_editor){
+		editor = _editor;
+
+		editor.addEventListener('keyup',   function(e){ onKeyup.apply(this, [e]); });
+		editor.addEventListener('keydown', function(e){ onKeydown.apply(this, [e]); });
+		editor.addEventListener('input',   function(e){ onInput.apply(this, [e]); });
+	}
+
+	var onKeydown = function(e)
 	{
-		this.editor = editor;
-
-		this.editor.addEvent('keyup', this.onKeyup.bind(this));
-		this.editor.addEvent('keydown', this.onKeydown.bind(this));
-		this.editor.addEvent('input', this.onInput.bind(this));
-	},
-
-	onKeydown: function(e)
-	{
-		if (0 == this.revisions.length)
+		if (0 == revisions.length)
 		{
-			this.editor.stripHtml();
-			this.revisions.push({html: this.editor.element.innerHTML, selection: this.editor.selection});
-			this.editor.highlight();
+			editor.stripHtml();
+			revisions.push({html: editor.element.innerHTML, selection: editor.selection});
+			editor.highlight();
 		}
 
 		// input event doesn't contain actual keys; store them here
-		this.ignoreInput = ('z' == e.key && e.control || 'y' == e.key && e.control)
-	},
+		ignoreInput = (e.ctrlKey && (90 == e.keyCode || 89 == e.keyCode))
+	};
 
-	onInput: function(e)
+	var onInput = function(e)
 	{
-		if (this.ignoreInput)
+		if (ignoreInput)
 		{
 			// This change was triggered by us
-			this.ignoreInput = false;
+			ignoreInput = false;
 			return;
 		}
 
-		if (this.undoIndex)
+		if (undoIndex)
 		{
-			while (this.undoIndex < this.revisions.length-1)
-				this.revisions.pop()
+			while (undoIndex < revisions.length-1)
+				revisions.pop()
 
-			this.undoIndex = null;
+			undoIndex = null;
 		}
 
-		this.editor.stripHtml();
+		editor.stripHtml();
 
-		this.revisions.push({html: this.editor.element.innerHTML, selection: this.editor.selection});
+		revisions.push({html: editor.element.innerHTML, selection: editor.selection});
 
-		if (this.revisions.length > this.maxRevisions)
-			this.revisions.shift();
-	},
+		if (revisions.length > maxRevisions)
+			revisions.shift();
+	};
 
-	onKeyup: function(e)
+	var onKeyup = function(e)
 	{
-		if ('z' == e.key && e.control)
+		if (e.ctrlKey && 90 == e.keyCode) // ctrl+z
 		{
-			if (this.undoIndex == null)
-				this.undoIndex = this.revisions.length-1;
+			if (undoIndex == null)
+				undoIndex = revisions.length-1;
 
-			this.undoIndex--;
+			undoIndex--;
 
-			if (this.undoIndex < 0)
+			if (undoIndex < 0)
 				return;
 		}
-		else if ('y' == e.key && e.control && this.undoIndex != null)
+		else if (e.ctrlKey && 89 == e.keyCode && undoIndex != null) // ctrl+y
 		{
-			this.undoIndex++;
+			undoIndex++;
 
-			if (this.undoIndex > this.revisions.length-1)
+			if (undoIndex > revisions.length-1)
 			{
-				this.undoIndex--;
+				undoIndex--;
 				return;
 			}
 		}
 		else
 			return;
 
-		this.editor.element.innerHTML = this.revisions[ this.undoIndex ].html;
-		this.editor.selection = this.revisions[ this.undoIndex ].selection;
+		editor.element.innerHTML = revisions[ undoIndex ].html;
+		editor.selection = revisions[ undoIndex ].selection;
 
-		this.editor.highlight();
-	}
-});
+		editor.highlight();
+	};
+}).apply(LRTEditor_UndoPlugin);

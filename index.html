@@ -1,6 +1,6 @@
 <html>
 <head>
-	<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+	<!--script src="http://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script-->
 
 	<script src="shjs/lang/sh_php.js"></script>
 	<script src="shjs/sh_main.min.js"></script>
@@ -13,13 +13,13 @@
 	<link rel="stylesheet" href="shjs/sh_style.css" />
 
 	<script type="text/javascript">
-	window.addEvent('domready', function(){
-		new LRTEditor(
-			$$('code')[0],
-			['UndoPlugin','MinimalPlugin'], 
-			function(el){ sh_highlightElement(el, sh_languages['php']); }
-		);
-	});
+		window.addEventListener('load', function(){
+			LRTEditor.initialize(
+				document.getElementsByTagName('code')[0],
+				['UndoPlugin','MinimalPlugin'], 
+				function(el){ sh_highlightElement(el, sh_languages['php']); }
+			);
+		});
 	</script>
 </head>
 

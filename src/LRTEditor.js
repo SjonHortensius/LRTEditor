@@ -1,35 +1,41 @@
-var LRTEditor = new Class({
-	Implements: Events,
-	element: null,
-	plugins: {},
-	_stopPropagation: {},
-	selection: null,
-	_highlightCallback: null,
+var LRTEditor = {};
 
-	initialize: function(el, plugins, highlightCallback)
-	{
+(function(){
+	"use strict"
+
+	//privates
+	var stopPropagation = {},
+		highlightCallback,
+		self = this,
+		events = {};
+
+	this.element = null;
+	this.plugins = {};
+	this.selection = null;
+
+	this.initialize = function(el, plugins, cb){
 		this.element = el;
-		this._highlightCallback = highlightCallback;
+		highlightCallback = cb;
 
-		plugins.each(function(p){
-			this.plugins[p] = new LRTEditor[p](this);
+		plugins.forEach(function(p){
+			this.plugins[p] = window['LRTEditor_' +p].initialize(this);
 		}.bind(this));
 
-		this.element.addEvent('keydown', this._propagate.bind(this));
-		this.element.addEvent('keyup', this._propagate.bind(this));
-		this.element.addEvent('input', this._propagate.bind(this));
+		this.element.addEventListener('keydown', function(e){ _propagate.apply(self, [e]); });
+		this.element.addEventListener('keyup',   function(e){ _propagate.apply(self, [e]); });
+		this.element.addEventListener('input',   function(e){ _propagate.apply(self, [e]); });
 
 		this.highlight();
-		this.element.setProperty('contentEditable', 'true');
-	},
+		this.element.setAttribute('contentEditable', 'true');
+	};
 
-	_propagate: function(e)
+	var _propagate = function(e)
 	{
-		this.selection = this.saveSelection();
+		this.selection = this.getSelection();
 
 		try
 		{
-			this.fireEvent(e.type, e);
+			this.dispatchEvent(e.type, [e]);
 		}
 		catch (ex)
 		{
@@ -42,40 +48,41 @@ var LRTEditor = new Class({
 		if ('input' == e.type)
 			this.reformat();
 
-		this.restoreSelection(this.selection);
-	},
+		this.setSelection(this.selection);
+	};
 
-	stripHtml: function(el)
+	this.stripHtml = function(el)
 	{
 		if (!el)
 			el = this.element;
 
-		el.set('text', el.textContent);
-	},
+		// Yes, this strips the html; keeping white-space intact
+		el['textContent'] = el.textContent;
+	};
 
-	highlight: function()
+	this.highlight = function()
 	{
-		this._highlightCallback(this.element);
+		highlightCallback(this.element);
 
 		this.element.innerHTML = '<span class="line">'+ this.element.innerHTML.replace(/\n/g, '</span>\n<span class="line">') +'</span>';
-	},
+	};
 
-	reformat: function()
+	this.reformat = function()
 	{
 		this.stripHtml();
 		this.highlight();
-	},
+	};
 
-	traverseText: function(n, c)
+	var traverseText = function(n, c)
 	{
 		if (n.nodeType == 3)
 			c(n);
 		else
 			for (var i = 0, len = n.childNodes.length; i<len; ++i)
-				this.traverseText(n.childNodes[i], c);
-	},
+				traverseText(n.childNodes[i], c);
+	};
 
-	saveSelection: function()
+	this.getSelection = function()
 	{
 		var offset = 0, start = 0, end = 0, found = false, stop = {};
 		var processText = function(n)
@@ -101,7 +108,7 @@ var LRTEditor = new Class({
 		{
 			try
 			{
-				this.traverseText(this.element, processText);
+				traverseText(this.element, processText);
 			}
 			catch (ex)
 			{
@@ -114,9 +121,9 @@ var LRTEditor = new Class({
 			start: start,
 			end: end
 		};
-	},
+	};
 
-	restoreSelection: function(sel)
+	this.setSelection = function(sel)
 	{
 		var offset = 0, range = document.createRange(), found = false, stop = {};
 		range.collapse(this.element, 0);
@@ -142,7 +149,7 @@ var LRTEditor = new Class({
 
 		try
 		{
-			this.traverseText(this.element, processText);
+			traverseText(this.element, processText);
 		}
 		catch (ex)
 		{
@@ -152,5 +159,30 @@ var LRTEditor = new Class({
 			window.getSelection().removeAllRanges();
 			window.getSelection().addRange(range);
 		}
-	}
-});
+	};
+
+	this.addEventListener = function(type, cb){
+		if (!events.hasOwnProperty(type))
+			events[type] = [];
+
+		events[type].push(cb);
+	};
+
+	this.removeEventListener = function(type, cb){
+		if (!events.hasOwnProperty(type))
+			return false;
+
+		var index = events[type].indexOf(cb);
+		if (-1 != index)
+			delete events[type][index];
+	};
+
+	this.dispatchEvent = function(type, args){
+		if (!events.hasOwnProperty(type))
+			return false;
+
+		args = args || [];
+		for (var i=0, l=events[type].length; i<l; i++)
+			events[type][i].apply(null, args);
+	};
+}).apply(LRTEditor);
