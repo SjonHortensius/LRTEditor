@@ -1,6 +1,7 @@
 var LRTEditor_UndoPlugin = {};
 
-(function(){
+(function()
+{
 	"use strict"
 
 	var editor,
@@ -9,8 +10,11 @@ var LRTEditor_UndoPlugin = {};
 		revisions = [],
 		maxRevisions = 30;
 
-	this.initialize = function(_editor){
+	this.initialize = function(_editor)
+	{
 		editor = _editor;
+
+		revisions.push({html: editor.element.innerHTML, selection: {start:0, end:0}});
 
 		editor.addEventListener('keyup',   function(e){ onKeyup.apply(this, [e]); });
 		editor.addEventListener('keydown', function(e){ onKeydown.apply(this, [e]); });
@@ -19,13 +23,6 @@ var LRTEditor_UndoPlugin = {};
 
 	var onKeydown = function(e)
 	{
-		if (0 == revisions.length)
-		{
-			editor.stripHtml();
-			revisions.push({html: editor.element.innerHTML, selection: editor.selection});
-			editor.highlight();
-		}
-
 		// input event doesn't contain actual keys; store them here
 		ignoreInput = (e.ctrlKey && (90 == e.keyCode || 89 == e.keyCode))
 	};
@@ -41,6 +38,8 @@ var LRTEditor_UndoPlugin = {};
 
 		if (undoIndex)
 		{
+			// suppose we have 4 revisions in our buffer and ctr+z'ed to undoIndex=2
+			// if anything is now typed we truncate buffers 3 & 4
 			while (undoIndex < revisions.length-1)
 				revisions.pop()
 

@@ -1,8 +1,5 @@
 .sh_sourceCode
 {
-	border: 1px solid #ddd;
-	margin: 10px;
-	color: #333;
 	counter-reset: lineno;
 	background: linear-gradient(to right, #f7f7f7 0%, #f7f7f7 30px, #ffffff 30px, #ffffff 100%)
 }
@@ -15,8 +12,8 @@ code
 
 .line
 {
+	margin-left: 5px;
 	counter-increment: lineno;
-	border-left: 1px solid gray;
 }
 
 .line::before

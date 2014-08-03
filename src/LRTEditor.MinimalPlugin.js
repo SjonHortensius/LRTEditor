@@ -1,11 +1,13 @@
 var LRTEditor_MinimalPlugin = {};
 
-(function(){
+(function()
+{
 	"use strict"
 
 	var editor = null;
 
-	this.initialize = function(_editor){
+	this.initialize = function(_editor)
+	{
 		editor = _editor;
 
 		editor.addEventListener('keydown', function(e){ onKeydown.apply(this, [e]); });
@@ -15,27 +17,26 @@ var LRTEditor_MinimalPlugin = {};
 	{
 		var range = window.getSelection().getRangeAt(0);
 
-		if (9 == e.keyCode && !e.shiftKey && !e.altKey) // tab
+		if (9 == e.keyCode && !e.altKey) // tab
 		{
-			// Not supported (yet?)
-			if (editor.selection.start != editor.selection.end)
-				return e.preventDefault();
+			if (editor.selection.start != editor.selection.end || e.shiftKey)
+			{
+				e.preventDefault();
+				return;
+			}
 
 			range.insertNode(document.createTextNode("\t"));
-
-			editor.selection.start++;
-			editor.selection.end++;
 		}
-		else if (13 == e.keyCode)
+		else if (13 == e.keyCode) // enter
 		{
 			range.deleteContents();
-			range.insertNode(document.createTextNode("\n"));
-			editor.selection.start += 2;
-			editor.selection.end = editor.selection.start;
+			range.insertNode(document.createTextNode("\n\u200B"));
 		}
 		else
 			return;
 
+		editor.selection.start++;
+		editor.selection.end++;
 		editor.reformat();
 		e.preventDefault();
 

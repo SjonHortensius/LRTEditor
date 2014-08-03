@@ -1,28 +1,33 @@
 <html>
 <head>
+	<!-- this is for the highlighter. You can use anything you want -->
 	<script src="shjs/lang/sh_php.js"></script>
 	<script src="shjs/sh_main.min.js"></script>
-
 	<link rel="stylesheet" href="src/style.css" />
 	<link rel="stylesheet" href="shjs/sh_style.css" />
 
-	<script src="LRTEditor.min.js"></script>
-<!--
+	<!-- specific for our editor. Notice how the highlighter-config is only a callback -->
 	<script src="src/LRTEditor.js"></script>
 	<script src="src/LRTEditor.MinimalPlugin.js"></script>
 	<script src="src/LRTEditor.UndoPlugin.js"></script>
-
 	<script type="text/javascript">
 		window.addEventListener('load', function(){
 			LRTEditor.initialize(
 				document.getElementsByTagName('code')[0],
-				['MinimalPlugin', 'UndoPlugin'], 
+				['MinimalPlugin', 'UndoPlugin'],
 				function(el){ sh_highlightElement(el, sh_languages['php']); }
 			);
 		});
 	</script>
--->
 
+	<style type="text/css">
+		/* styles for this demo-page */
+		code
+		{
+			border: 1px solid #ddd;
+			margin: 10px;
+		}
+	</style>
 	<link rel="stylesheet" href="http://simonwhitaker.github.io/github-fork-ribbon-css/gh-fork-ribbon.css" />
 </head>
 

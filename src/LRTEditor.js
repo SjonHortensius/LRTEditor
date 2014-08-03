@@ -1,6 +1,7 @@
 var LRTEditor = {};
 
-(function(){
+(function()
+{
 	"use strict"
 
 	var highlightCallback,
@@ -12,7 +13,12 @@ var LRTEditor = {};
 	this.selection = null;
 	this.stopPropagation = {};
 
-	this.initialize = function(el, _plugins, cb){
+	this.config = {
+		addLineWrapper: true,
+	};
+
+	this.initialize = function(el, _plugins, cb)
+	{
 		this.element = el;
 		highlightCallback = cb;
 
@@ -26,6 +32,7 @@ var LRTEditor = {};
 
 		this.highlight();
 		this.element.setAttribute('contentEditable', 'true');
+		this.element.setAttribute('spellcheck', 'false');
 	};
 
 	var _propagate = function(e)
@@ -63,7 +70,10 @@ var LRTEditor = {};
 	{
 		highlightCallback(this.element);
 
-		this.element.innerHTML = '<div><span class="line">'+ this.element.innerHTML.replace(/\n/g, '</span>\n<span class="line">') +'</span></div>';
+		if (this.config.addLineWrapper)
+		{
+			this.element.innerHTML = '<div><span class="line">'+ this.element.innerHTML.replace(/\n/g, '</span>\n<span class="line">') +'</span></div>';
+		}
 	};
 
 	this.reformat = function()
@@ -160,14 +170,16 @@ var LRTEditor = {};
 		}
 	};
 
-	this.addEventListener = function(type, cb){
+	this.addEventListener = function(type, cb)
+	{
 		if (!events.hasOwnProperty(type))
 			events[type] = [];
 
 		events[type].push(cb);
 	};
 
-	this.removeEventListener = function(type, cb){
+	this.removeEventListener = function(type, cb)
+	{
 		if (!events.hasOwnProperty(type))
 			return false;
 
@@ -176,7 +188,8 @@ var LRTEditor = {};
 			delete events[type][index];
 	};
 
-	this.dispatchEvent = function(type, args){
+	this.dispatchEvent = function(type, args)
+	{
 		if (!events.hasOwnProperty(type))
 			return false;
 
