@@ -14,7 +14,7 @@ var LRTEditor = {};
 	this.stopPropagation = {};
 
 	this.config = {
-		addLineWrapper: true,
+		addLineWrapper: true
 	};
 
 	this.initialize = function(el, _plugins, cb)
