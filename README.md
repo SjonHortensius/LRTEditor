@@ -23,6 +23,9 @@ LRTEditor_MinimalPlugin provides:
 LRTEditor_UndoPlugin provides:
 * handler for ctrl+z/y; for undo/redo functionality
 
+LRTEditor_FormPlugin provides:
+* form-functionality; pass a textarea as element and we'll replace it and keep it updated
+
 USAGE
 =====
 
