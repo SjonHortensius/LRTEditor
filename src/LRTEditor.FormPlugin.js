@@ -13,6 +13,7 @@ var LRTEditor_FormPlugin = {};
 		orgElement = editor.element;
 		var code = document.createElement('code');
 		code.innerHTML = orgElement.innerHTML;
+		code.className = orgElement.className;
 
 		orgElement.parentNode.insertBefore(code, orgElement);
 		orgElement.style.display = 'none';
@@ -25,9 +26,5 @@ var LRTEditor_FormPlugin = {};
 	var onInput = function(e)
 	{
 		orgElement.value = editor.element.textContent;
-
-		// MinimalPlugin inserts characters we don't want to submit
-		if ('undefined' != typeof editor.getPlugin('MinimalPlugin'))
-			orgElement.value = orgElement.value.replace(/\n\u200B/g, '\n');
 	};
 }).apply(LRTEditor_FormPlugin);
