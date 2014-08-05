@@ -23,7 +23,8 @@ var LRTEditor = {};
 		highlightCallback = cb;
 
 		_plugins.forEach(function(p){
-			plugins[p] = window['LRTEditor_' +p].initialize(this);
+			plugins[p] = window['LRTEditor_' +p];
+			plugins[p].initialize(this);
 		}.bind(this));
 
 		this.element.addEventListener('keydown', function(e){ _propagate.apply(self, [e]); });
@@ -169,6 +170,11 @@ var LRTEditor = {};
 			window.getSelection().addRange(range);
 		}
 	};
+
+	this.getPlugin = function(p)
+	{
+		return plugins[p];
+	}
 
 	this.addEventListener = function(type, cb)
 	{

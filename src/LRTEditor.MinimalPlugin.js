@@ -10,6 +10,7 @@ var LRTEditor_MinimalPlugin = {};
 	{
 		editor = _editor;
 
+		editor.element.innerHTML = editor.element.innerHTML.replace(/\n\u200B?/g, '\n\u200B');
 		editor.addEventListener('keydown', function(e){ onKeydown.apply(this, [e]); });
 	};
 
