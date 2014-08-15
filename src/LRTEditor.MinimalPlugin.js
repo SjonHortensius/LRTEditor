@@ -16,10 +16,11 @@ var LRTEditor_MinimalPlugin = {};
 	var onKeydown = function(e)
 	{
 		var range = window.getSelection().getRangeAt(0);
+		var selection = editor.getSelection();
 
 		if (9 == e.keyCode && !e.altKey) // tab
 		{
-			if (editor.selection.start != editor.selection.end || e.shiftKey)
+			if (selection.start != selection.end || e.shiftKey)
 			{
 				e.preventDefault();
 				return;
@@ -31,14 +32,19 @@ var LRTEditor_MinimalPlugin = {};
 		{
 			range.deleteContents();
 			range.insertNode(document.createTextNode("\n"));
+
+			selection.end = selection.start;
 		}
 		else
 			return;
 
-		editor.selection.start++;
-		editor.selection.end++;
+		selection.start++;
+		selection.end++;
+
 		editor.reformat();
 		e.preventDefault();
+
+		editor.setSelection(selection);
 
 		// Trigger input event since we changed content. Add delay so _propagate can restoreSelection first
 /*		var inputEvent = new Event('input', {

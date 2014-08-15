@@ -10,7 +10,6 @@ var LRTEditor = {};
 		plugins = {};
 
 	this.element = null;
-	this.selection = null;
 	this.stopPropagation = {};
 
 	this.config = {
@@ -38,8 +37,6 @@ var LRTEditor = {};
 
 	var _propagate = function(e)
 	{
-		this.selection = this.getSelection();
-
 		try
 		{
 			this.dispatchEvent(e.type, [e]);
@@ -52,11 +49,13 @@ var LRTEditor = {};
 			return;
 		}
 
+		var selection = this.getSelection();
+
 		if ('input' == e.type)
 			this.reformat();
 
-		if (this.selection)
-			this.setSelection(this.selection);
+		if (selection)
+			this.setSelection(selection);
 	};
 
 	this.stripHtml = function(el)
