@@ -55,7 +55,8 @@ var LRTEditor = {};
 		if ('input' == e.type)
 			this.reformat();
 
-		this.setSelection(this.selection);
+		if (this.selection)
+			this.setSelection(this.selection);
 	};
 
 	this.stripHtml = function(el)
@@ -94,7 +95,8 @@ var LRTEditor = {};
 
 	this.getSelection = function()
 	{
-		var offset = 0, start = 0, end = 0, found = false, stop = {};
+		var offset = 0, start = -1, end = -1, found = false, stop = {};
+
 		var processText = function(n)
 		{
 			if (!found && n == range.startContainer)
@@ -127,6 +129,9 @@ var LRTEditor = {};
 			}
 		}
 
+		if (start === -1 || end === -1)
+			return null;
+
 		return {
 			start: start,
 			end: end
@@ -135,6 +140,9 @@ var LRTEditor = {};
 
 	this.setSelection = function(sel)
 	{
+		if (sel === null)
+			return;
+
 		var offset = 0, range = document.createRange(), found = false, stop = {};
 		range.collapse(this.element);
 
