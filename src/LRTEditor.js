@@ -45,17 +45,7 @@ var LRTEditor = {};
 		{
 			if (ex != this.stopPropagation)
 				throw ex;
-
-			return;
 		}
-
-		var selection = this.getSelection();
-
-		if ('input' == e.type)
-			this.reformat();
-
-		if (selection)
-			this.setSelection(selection);
 	};
 
 	this.stripHtml = function(el)

@@ -11,13 +11,14 @@
 
 	<!-- specific for our editor. Notice how the highlighter-config is only a callback -->
 	<script src="src/LRTEditor.js"></script>
+	<script src="src/LRTEditor.HighlightPlugin.js"></script>
 	<script src="src/LRTEditor.MinimalPlugin.js"></script>
 	<script src="src/LRTEditor.UndoPlugin.js"></script>
 	<script type="text/javascript">
 		window.addEventListener('load', function(){
 			LRTEditor.initialize(
 				document.getElementsByTagName('code')[0],
-				['MinimalPlugin', 'UndoPlugin'],
+				['MinimalPlugin', 'UndoPlugin', 'HighlightPlugin'],
 				function(el){ sh_highlightElement(el, sh_languages['php']); }
 			);
 		});
