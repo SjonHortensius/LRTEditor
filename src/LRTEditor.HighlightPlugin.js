@@ -6,6 +6,13 @@ var LRTEditor_HighlightPlugin = {};
 
 	var editor = null;
 
+	this.initialize = function(_editor)
+	{
+		editor = _editor;
+
+		editor.addEventListener('input', function(e){ onInput.apply(this, [e]); });
+	};
+
 	var onInput = function(e)
 	{
 		var selection = editor.getSelection();
@@ -14,12 +21,4 @@ var LRTEditor_HighlightPlugin = {};
 
 		editor.setSelection(selection);
 	};
-
-	this.initialize = function(_editor)
-	{
-		editor = _editor;
-
-		editor.addEventListener('input', function(e){ onInput.apply(this, [e]); });
-	};
-
 }).apply(LRTEditor_HighlightPlugin);
