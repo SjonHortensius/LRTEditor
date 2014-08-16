@@ -46,8 +46,6 @@ var LRTEditor_UndoPlugin = {};
 			undoIndex = null;
 		}
 
-		editor.stripHtml();
-
 		revisions.push({text: editor.element.textContent, selection: editor.selection});
 
 		if (revisions.length > maxRevisions)
