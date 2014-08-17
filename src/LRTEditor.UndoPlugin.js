@@ -55,10 +55,12 @@ var LRTEditor_UndoPlugin = {};
 
 	var onKeyup = function(e)
 	{
+		var maxRevision = revisions.length - 1;
+
 		if (e.ctrlKey && 90 == e.keyCode) // ctrl+z
 		{
 			if (undoIndex === null)
-				undoIndex = revisions.length - 1;
+				undoIndex = maxRevision;
 
 			undoIndex--;
 
@@ -72,9 +74,9 @@ var LRTEditor_UndoPlugin = {};
 		{
 			undoIndex++;
 
-			if (undoIndex > revisions.length-1)
+			if (undoIndex > maxRevision)
 			{
-				undoIndex = revisions.length-1;
+				undoIndex = maxRevision;
 				return;
 			}
 		}
