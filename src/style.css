@@ -1,13 +1,14 @@
-.sh_sourceCode
-{
-	counter-reset: lineno;
-	background: linear-gradient(to right, #f7f7f7 0%, #f7f7f7 30px, #ffffff 30px, #ffffff 100%)
-}
-
 code
 {
 	white-space: pre;
 	display: block;
+	counter-reset: lineno;
+	background: linear-gradient(to right, #f7f7f7 0%, #f7f7f7 30px, #ffffff 30px, #ffffff 100%);
+}
+
+code:focus
+{
+	outline: none;
 }
 
 .line
