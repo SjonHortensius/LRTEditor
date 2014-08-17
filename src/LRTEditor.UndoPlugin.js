@@ -46,9 +46,14 @@ var LRTEditor_UndoPlugin = {};
 			undoIndex = null;
 		}
 
-		editor.stripHtml();
+		var selection = editor.getSelection();
 
-		revisions.push({html: editor.element.innerHTML, selection: editor.selection});
+		editor.stripHtml();
+		editor.setSelection(selection);
+
+		revisions.push({html: editor.element.innerHTML, selection: selection});
+
+
 
 		if (revisions.length > maxRevisions)
 			revisions.shift();
@@ -80,8 +85,9 @@ var LRTEditor_UndoPlugin = {};
 			return;
 
 		editor.element.innerHTML = revisions[ undoIndex ].html;
-		editor.selection = revisions[ undoIndex ].selection;
 
 		editor.highlight();
+
+		editor.setSelection(revisions[ undoIndex ].selection);
 	};
 }).apply(LRTEditor_UndoPlugin);
