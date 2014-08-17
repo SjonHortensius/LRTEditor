@@ -14,7 +14,7 @@ var LRTEditor_UndoPlugin = {};
 	{
 		editor = _editor;
 
-		revisions.push({html: editor.element.innerHTML, selection: {start:0, end:0}});
+		revisions.push({text: editor.element.textContent, selection: {start:0, end:0}});
 
 		editor.addEventListener('keyup',   function(e){ onKeyup.apply(this, [e]); });
 		editor.addEventListener('keydown', function(e){ onKeydown.apply(this, [e]); });
@@ -47,13 +47,7 @@ var LRTEditor_UndoPlugin = {};
 		}
 
 		var selection = editor.getSelection();
-
-		editor.stripHtml();
-		editor.setSelection(selection);
-
-		revisions.push({html: editor.element.innerHTML, selection: selection});
-
-
+		revisions.push({text: editor.element.textContent, selection: selection});
 
 		if (revisions.length > maxRevisions)
 			revisions.shift();
@@ -84,7 +78,7 @@ var LRTEditor_UndoPlugin = {};
 		else
 			return;
 
-		editor.element.innerHTML = revisions[ undoIndex ].html;
+		editor.element['textContent'] = revisions[ undoIndex ].text;
 
 		editor.highlight();
 
