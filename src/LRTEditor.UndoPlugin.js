@@ -36,7 +36,7 @@ var LRTEditor_UndoPlugin = {};
 			return;
 		}
 
-		if (undoIndex)
+		if (undoIndex !== null)
 		{
 			// suppose we have 4 revisions in our buffer and ctr+z'ed to undoIndex=2
 			// if anything is now typed we truncate buffers 3 & 4
@@ -57,21 +57,24 @@ var LRTEditor_UndoPlugin = {};
 	{
 		if (e.ctrlKey && 90 == e.keyCode) // ctrl+z
 		{
-			if (undoIndex == null)
-				undoIndex = revisions.length-1;
+			if (undoIndex === null)
+				undoIndex = revisions.length - 1;
 
 			undoIndex--;
 
 			if (undoIndex < 0)
+			{
+				undoIndex = 0;
 				return;
+			}
 		}
-		else if (e.ctrlKey && 89 == e.keyCode && undoIndex != null) // ctrl+y
+		else if (e.ctrlKey && 89 == e.keyCode && undoIndex !== null) // ctrl+y
 		{
 			undoIndex++;
 
 			if (undoIndex > revisions.length-1)
 			{
-				undoIndex--;
+				undoIndex = revisions.length-1;
 				return;
 			}
 		}
