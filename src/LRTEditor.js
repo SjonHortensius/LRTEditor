@@ -62,7 +62,7 @@ var LRTEditor = {};
 		highlightCallback(this.element);
 
 		if (this.config.addLineWrapper)
-			this.element.innerHTML = '<div><span class="line">'+ this.element.innerHTML.replace(/\n\n$/, '\n').replace(/\n/g, '</span>\n<span class="line">') +'</span>\n</div>';
+			this.element.innerHTML = '<div><span class="line">'+ this.element.innerHTML.replace(/\n\n$/, '\n').replace(/\n/g, '\n</span><span class="line">') +'</span>\n</div>';
 	};
 
 	this.reformat = function()
