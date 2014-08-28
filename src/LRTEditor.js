@@ -30,7 +30,6 @@ var LRTEditor = {};
 		this.element.addEventListener('keyup',   function(e){ _propagate.apply(self, [e]); });
 		this.element.addEventListener('input',   function(e){ _propagate.apply(self, [e]); });
 
-		this.highlight();
 		this.element.setAttribute('contentEditable', 'true');
 		this.element.setAttribute('spellcheck', 'false');
 	};
@@ -48,27 +47,24 @@ var LRTEditor = {};
 		}
 	};
 
-	this.stripHtml = function(el)
-	{
-		if (!el)
-			el = this.element;
-
-		// Yes, this strips the html; keeping white-space intact
-		el['textContent'] = el.textContent;
-	};
-
 	this.highlight = function()
 	{
 		highlightCallback(this.element);
 
 		if (this.config.addLineWrapper)
-			this.element.innerHTML = '<div><span class="line">'+ this.element.innerHTML.replace(/\n\n$/, '\n').replace(/\n/g, '\n</span><span class="line">') +'</span>\n</div>';
+			this.element.innerHTML = '<div><span class="line">'+ this.element.innerHTML.replace(/\n/g, '\n</span><span class="line">') +'</span></div>';
 	};
 
 	this.reformat = function()
 	{
-		this.stripHtml();
-		this.highlight();
+		// Manually trigger an InputEvent; for plugins that modify text
+		var inputEvent = new Event('input', {
+			bubbles: true,
+			cancelable: false,
+			target: this.element,
+		});
+
+		this.dispatchEvent('input', [inputEvent]);
 	};
 
 	var traverseText = function(n, c)

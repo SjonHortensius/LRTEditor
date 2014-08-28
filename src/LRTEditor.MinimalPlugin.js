@@ -41,18 +41,9 @@ var LRTEditor_MinimalPlugin = {};
 		selection.start++;
 		selection.end++;
 
-		editor.reformat();
-		e.preventDefault();
-
 		editor.setSelection(selection);
+		editor.reformat();
 
-		// Trigger input event since we changed content. Add delay so _propagate can restoreSelection first
-/*		var inputEvent = new Event('input', {
-			bubbles: true,
-			cancelable: false,
-			target: editor.element,
-		});
-
-		window.setTimeout(function(){ editor.dispatchEvent('input', [inputEvent]); }, 10);
-*/	}
+		e.preventDefault();
+	}
 }).apply(LRTEditor_MinimalPlugin);

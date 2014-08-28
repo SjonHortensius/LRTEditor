@@ -16,6 +16,9 @@ LRTEditor provides:
 * stripHtml/highlight; to convert from plain to highlighted
 * add/remove/dispatchEvent; to forward events to plugins
 
+LRTEditor_HighlightPlugin provides:
+* handler for any input; reformatting code whenever a change is made
+
 LRTEditor_MinimalPlugin provides:
 * handler for tab-key; to insert a tab instead of changing focus
 * handler for enter-key; to prevent the browser from inserting a `<DIV>` element
@@ -39,7 +42,7 @@ Using LRTEditor is easy; include the appropriate files and register the highligh
 	window.addEventListener('load', function(){
 		LRTEditor.initialize(
 			document.getElementsByTagName('code')[0],
-			['MinimalPlugin','UndoPlugin'],
+			['HighlightPlugin', 'MinimalPlugin','UndoPlugin'],
 			function(el){ sh_highlightElement(el, sh_languages['php']); }
 		);
 	});

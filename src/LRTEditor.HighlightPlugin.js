@@ -11,13 +11,16 @@ var LRTEditor_HighlightPlugin = {};
 		editor = _editor;
 
 		editor.addEventListener('input', function(e){ onInput.apply(this, [e]); });
+		editor.highlight();
 	};
 
 	var onInput = function(e)
 	{
 		var selection = editor.getSelection();
 
-		editor.reformat();
+		// Yes, this strips the html; keeping white-space intact
+		editor.element['textContent'] = editor.element.textContent;
+		editor.highlight();
 
 		editor.setSelection(selection);
 	};
