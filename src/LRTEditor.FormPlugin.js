@@ -12,7 +12,7 @@ var LRTEditor_FormPlugin = {};
 
 		orgElement = editor.element;
 		var code = document.createElement('code');
-		code.innerHTML = orgElement.innerHTML;
+		code.textContent = orgElement.textContent;
 		code.className = orgElement.className;
 
 		orgElement.parentNode.insertBefore(code, orgElement);
