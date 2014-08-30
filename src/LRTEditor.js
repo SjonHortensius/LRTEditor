@@ -167,10 +167,12 @@ var LRTEditor = {};
 	this.addEventListener = function(type, cb)
 	{
 		if (!events.hasOwnProperty(type))
+		{
 			events[type] = [];
 
-		// Register actual event which we'll propagate
-		this.element.addEventListener(type, function(e){ _propagate.apply(self, [e]); });
+			// Register actual event which we'll propagate
+			this.element.addEventListener(type, function(e){ _propagate.apply(self, [e]); });
+		}
 
 		events[type].push(cb);
 	};
