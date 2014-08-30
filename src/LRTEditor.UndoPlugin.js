@@ -24,7 +24,7 @@ var LRTEditor_UndoPlugin = {};
 	var onKeydown = function(e)
 	{
 		// input event doesn't contain actual keys; store them here
-		ignoreInput = (e.ctrlKey && (90 == e.keyCode || 89 == e.keyCode))
+		ignoreInput = ignoreInput || (e.ctrlKey && (90 == e.keyCode || 89 == e.keyCode))
 	};
 
 	var onInput = function(e)
@@ -83,10 +83,10 @@ var LRTEditor_UndoPlugin = {};
 		else
 			return;
 
-		editor.element['textContent'] = revisions[ undoIndex ].text;
-
-		editor.highlight();
-
+		editor.element.textContent = revisions[ undoIndex ].text;
 		editor.setSelection(revisions[ undoIndex ].selection);
+
+		ignoreInput = true;
+		editor.reformat();
 	};
 }).apply(LRTEditor_UndoPlugin);

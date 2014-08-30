@@ -13,7 +13,6 @@ LRTEditor comes with a simple plugin architecture allowing you to add functional
 
 LRTEditor provides:
 * get/setSelection; to restore selection and cursor
-* stripHtml/highlight; to convert from plain to highlighted
 * add/remove/dispatchEvent; to forward events to plugins
 
 LRTEditor_HighlightPlugin provides:
@@ -22,6 +21,7 @@ LRTEditor_HighlightPlugin provides:
 LRTEditor_MinimalPlugin provides:
 * handler for tab-key; to insert a tab instead of changing focus
 * handler for enter-key; to prevent the browser from inserting a `<DIV>` element
+* handler for paste-event; forces plain-text to be pasted, preventing whitespace issues
 
 LRTEditor_UndoPlugin provides:
 * handler for ctrl+z/y; for undo/redo functionality
@@ -32,18 +32,23 @@ LRTEditor_FormPlugin provides:
 USAGE
 =====
 
-Using LRTEditor is easy; include the appropriate files and register the highlighter onload:
+Using LRTEditor is easy; include the files and configure the highlighter:
 
 ```html
 <script src="LRTEditor/shjs/lang/sh_php.js"></script>
 <script src="LRTEditor/shjs/sh_main.min.js"></script>
-<script src="LRTEditor/LRTEditor.min.js"></script>
+<script src="LRTEditor.js"></script>
+<script src="LRTEditor.HighlightPlugin.js"></script>
+<script src="LRTEditor.MinimalPlugin.js"></script>
+<script src="LRTEditor.UndoPlugin.js"></script>
 <script>
 	window.addEventListener('load', function(){
 		LRTEditor.initialize(
 			document.getElementsByTagName('code')[0],
-			['HighlightPlugin', 'MinimalPlugin','UndoPlugin'],
-			function(el){ sh_highlightElement(el, sh_languages['php']); }
+			['MinimalPlugin', 'UndoPlugin', 'HighlightPlugin'],
+			{
+				highlightCallback: function(el){ sh_highlightElement(el, sh_languages['php']); },
+			}
 		);
 	});
 </script>

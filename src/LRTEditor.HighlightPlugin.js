@@ -11,7 +11,7 @@ var LRTEditor_HighlightPlugin = {};
 		editor = _editor;
 
 		editor.addEventListener('input', function(e){ onInput.apply(this, [e]); });
-		editor.highlight();
+		highlight();
 	};
 
 	var onInput = function(e)
@@ -20,8 +20,17 @@ var LRTEditor_HighlightPlugin = {};
 
 		// Strip html; keeping white-space intact
 		editor.element['textContent'] = editor.element.textContent;
-		editor.highlight();
 
+		highlight();
 		editor.setSelection(selection);
+	};
+
+	var highlight = function()
+	{
+		editor.config.highlightCallback(editor.element);
+
+		// Please don't change this
+		if (editor.config.addLineWrapper)
+			editor.element.innerHTML = '<div><span class="line">'+ editor.element.innerHTML.replace(/\n\n$/, '\n').replace(/\n/g, '\n</span><span class="line">') +'</span>\n</div>';
 	};
 }).apply(LRTEditor_HighlightPlugin);

@@ -4,8 +4,7 @@ var LRTEditor = {};
 {
 	"use strict"
 
-	var highlightCallback,
-		self = this,
+	var self = this,
 		events = {},
 		plugins = {};
 
@@ -13,13 +12,16 @@ var LRTEditor = {};
 	this.stopPropagation = {};
 
 	this.config = {
-		addLineWrapper: true
+		addLineWrapper: true,
+		highlightCallback: function(){}
 	};
 
-	this.initialize = function(el, _plugins, cb)
+	this.initialize = function(el, _plugins, c)
 	{
 		this.element = el;
-		highlightCallback = cb;
+
+		for (var k in c)
+			this.config[k] = c[k];
 
 		_plugins.forEach(function(p){
 			plugins[p] = window['LRTEditor_' +p];
@@ -44,22 +46,13 @@ var LRTEditor = {};
 		}
 	};
 
-	this.highlight = function()
-	{
-		highlightCallback(this.element);
-
-		// Please don't change this
-		if (this.config.addLineWrapper)
-			this.element.innerHTML = '<div><span class="line">'+ this.element.innerHTML.replace(/\n\n$/, '\n').replace(/\n/g, '\n</span><span class="line">') +'</span>\n</div>';
-	};
-
 	this.reformat = function()
 	{
 		// Manually trigger an InputEvent; for plugins that modify text
 		var inputEvent = new Event('input', {
 			bubbles: true,
 			cancelable: false,
-			target: this.element,
+			target: this.element
 		});
 
 		this.dispatchEvent('input', [inputEvent]);

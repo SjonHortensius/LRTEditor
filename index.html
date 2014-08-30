@@ -19,7 +19,9 @@
 			LRTEditor.initialize(
 				document.getElementsByTagName('code')[0],
 				['MinimalPlugin', 'UndoPlugin', 'HighlightPlugin'],
-				function(el){ sh_highlightElement(el, sh_languages['php']); }
+				{
+					highlightCallback: function(el){ sh_highlightElement(el, sh_languages['php']); },
+				}
 			);
 		});
 	</script>
