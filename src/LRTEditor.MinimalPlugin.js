@@ -11,6 +11,7 @@ var LRTEditor_MinimalPlugin = {};
 		editor = _editor;
 
 		editor.addEventListener('keydown', function(e){ onKeydown.apply(this, [e]); });
+		editor.addEventListener('paste', function(e){ onPaste.apply(this, [e]); });
 	};
 
 	var onKeydown = function(e)
@@ -45,5 +46,16 @@ var LRTEditor_MinimalPlugin = {};
 		editor.reformat();
 
 		e.preventDefault();
-	}
+	};
+
+	var onPaste = function (e)
+	{
+		// Manually insert plain-text contents so we keep newlines
+		var range = window.getSelection().getRangeAt(0);
+		range.deleteContents();
+		range.insertNode(document.createTextNode(e.clipboardData.getData('text/plain')));
+
+		e.preventDefault();
+		editor.reformat();
+	};
 }).apply(LRTEditor_MinimalPlugin);

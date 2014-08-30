@@ -18,7 +18,7 @@ var LRTEditor_HighlightPlugin = {};
 	{
 		var selection = editor.getSelection();
 
-		// Yes, this strips the html; keeping white-space intact
+		// Strip html; keeping white-space intact
 		editor.element['textContent'] = editor.element.textContent;
 		editor.highlight();
 

@@ -26,12 +26,9 @@ var LRTEditor = {};
 			plugins[p].initialize(this);
 		}.bind(this));
 
-		this.element.addEventListener('keydown', function(e){ _propagate.apply(self, [e]); });
-		this.element.addEventListener('keyup',   function(e){ _propagate.apply(self, [e]); });
-		this.element.addEventListener('input',   function(e){ _propagate.apply(self, [e]); });
-
 		this.element.setAttribute('contentEditable', 'true');
-		this.element.setAttribute('spellcheck', 'false');
+		this.element.setAttribute('autoComplete', 'off');
+		this.element.setAttribute('spellCheck', 'false');
 	};
 
 	var _propagate = function(e)
@@ -171,6 +168,9 @@ var LRTEditor = {};
 	{
 		if (!events.hasOwnProperty(type))
 			events[type] = [];
+
+		// Register actual event which we'll propagate
+		this.element.addEventListener(type, function(e){ _propagate.apply(self, [e]); });
 
 		events[type].push(cb);
 	};
