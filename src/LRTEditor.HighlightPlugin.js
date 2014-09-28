@@ -32,5 +32,13 @@ var LRTEditor_HighlightPlugin = {};
 		// Please don't change this
 		if (editor.config.addLineWrapper)
 			editor.element.innerHTML = '<div><span class="line">'+ editor.element.innerHTML.replace(/\n\n$/, '\n').replace(/\n/g, '\n</span><span class="line">') +'</span>\n</div>';
+
+		var highlightEvent = new Event('highlight', {
+			bubbles: false,
+			cancelable: false,
+			target: editor
+		});
+
+		editor.dispatchEvent('highlight', [highlightEvent]);
 	};
 }).apply(LRTEditor_HighlightPlugin);

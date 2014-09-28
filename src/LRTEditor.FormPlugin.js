@@ -20,7 +20,7 @@ var LRTEditor_FormPlugin = {};
 
 		editor.element = code;
 
-		editor.addEventListener('input',   function(e){ onInput.apply(this, [e]); });
+		editor.addEventListener('input', function(e){ onInput.apply(this, [e]); });
 	};
 
 	var onInput = function(e)

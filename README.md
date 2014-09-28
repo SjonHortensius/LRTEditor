@@ -4,7 +4,7 @@ ABOUT
 Looking for a modern Rich Text Editor? LRTEditor is the way to go! We don't support older browsers; meaning this is the smallest text editor with syntax highlighting you'll find.
 LRTEditor doesn't depend on a specific highlighter; I like [shjs](https://github.com/SjonHortensius/shjs). so I have included that; but any highlighter should work just fine.
 
-When served minified and compressed; [LRTEditor](https://github.com/SjonHortensius/LRTEditor/blob/master/LRTEditor.min.js) is currently ~ 1.3KiB; [shjs](https://github.com/SjonHortensius/shjs/blob/master/sh_main.min.js) is ~ 1KiB.
+When served minified and compressed; [LRTEditor](https://github.com/SjonHortensius/LRTEditor/blob/master/LRTEditor.min.js) is currently ~ 1.5KiB; [shjs](https://github.com/SjonHortensius/shjs/blob/master/sh_main.min.js) is ~ 1KiB.
 
 FEATURES
 ========
