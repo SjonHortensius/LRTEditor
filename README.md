@@ -45,7 +45,7 @@ Using LRTEditor is easy; include the files and configure the highlighter:
 	window.addEventListener('load', function(){
 		LRTEditor.initialize(
 			document.getElementsByTagName('code')[0],
-			['MinimalPlugin', 'UndoPlugin', 'HighlightPlugin'],
+			[LRTEditor_MinimalPlugin, LRTEditor_UndoPlugin, LRTEditor_HighlightPlugin],
 			{
 				highlightCallback: function(el){ sh_highlightElement(el, sh_languages['php']); },
 			}

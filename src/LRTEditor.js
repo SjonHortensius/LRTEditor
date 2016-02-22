@@ -16,17 +16,21 @@ var LRTEditor = {};
 		highlightCallback: function(){}
 	};
 
-	this.initialize = function(el, _plugins, c)
+	this.initialize = function(el, plugins, c)
 	{
 		this.element = el;
 
 		for (var k in c)
 			this.config[k] = c[k];
 
-		_plugins.forEach(function(p){
-			plugins[p] = window['LRTEditor_' +p];
+		for (var p in plugins)
+		{
+			// fallback for strings instead of objects, fixes #10
+			if ('object' != typeof plugins[p])
+				plugins[p] = window['LRTEditor_' +plugins[p]];
+
 			plugins[p].initialize(this);
-		}.bind(this));
+		}
 
 		this.element.setAttribute('contentEditable', 'true');
 		this.element.setAttribute('autoComplete', 'off');
