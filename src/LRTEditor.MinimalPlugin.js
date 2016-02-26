@@ -1,5 +1,10 @@
 var LRTEditor_MinimalPlugin = {};
 
+// Expose as CommonJS module.
+if(typeof module != "undefined" && typeof module.exports == "object") {
+	module.exports = LRTEditor_MinimalPlugin;
+}
+
 (function()
 {
 	"use strict"
