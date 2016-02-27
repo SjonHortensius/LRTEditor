@@ -1,5 +1,10 @@
 var LRTEditor = {};
 
+// Expose as CommonJS module.
+if(typeof module != "undefined" && typeof module.exports == "object") {
+	module.exports = LRTEditor;
+}
+
 (function()
 {
 	"use strict"

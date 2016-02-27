@@ -1,5 +1,10 @@
 var LRTEditor_FormPlugin = {};
 
+// Expose as CommonJS module.
+if(typeof module != "undefined" && typeof module.exports == "object") {
+	module.exports = LRTEditor_FormPlugin;
+}
+
 (function()
 {
 	"use strict"
